@@ -46,11 +46,7 @@ async function run() {
         const appointmentsCollection = database.collection('appointments');
         const usersCollection = database.collection('users');
 
-        app.get('/appointments', verifyToken, async (req, res) => {
-            const items = appointmentsCollection.find({});
-            const services = await items.toArray();
-            res.send(services);
-        })
+
 
         app.get('/appointments', verifyToken, async (req, res) => {
             const email = req.query.email;
@@ -59,6 +55,12 @@ async function run() {
             const cursor = appointmentsCollection.find(query);
             const appointments = await cursor.toArray();
             res.json(appointments);
+        });
+
+        app.get('/appointments', verifyToken, async (req, res) => {
+            const items = appointmentsCollection.find({});
+            const services = await items.toArray();
+            res.send(services);
         });
 
         app.post('/appointments', async (req, res) => {
