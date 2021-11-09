@@ -47,9 +47,14 @@ async function run() {
         const usersCollection = database.collection('users');
 
         app.get('/appointments', verifyToken, async (req, res) => {
+            const items = appointmentsCollection.find({});
+            const services = await items.toArray();
+            res.send(services);
+        })
+
+        app.get('/appointments', verifyToken, async (req, res) => {
             const email = req.query.email;
             const date = req.query.date;
-            console.log(date)
             const query = { email: email, date: date };
             const cursor = appointmentsCollection.find(query);
             const appointments = await cursor.toArray();
